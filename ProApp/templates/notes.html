@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+    <!-- Start blog Area -->
+
+    {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+    {% block body %}
+    <section class="blog-area section-gap">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 pb-30 header-text">
+            <h1> Your Recent Notes </h1>
+            <p>
+              Create, Update and Share!
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          {% for note in all_notes  %}
+          <div class="single-blog col-lg-4 col-md-4">
+            {% if note.img %}
+            <img class="f-img img-fluid mx-auto" src="{{note.img.url}}" alt="">
+            {% endif %}
+
+            <h4>
+              <a href="{% url 'notes:note_detail' note.slug %}">{{note.title}}</a>
+            </h4>
+            <p>
+              {{note.content|safe|truncatewords:'20'}}
+            <div class="bottom d-flex justify-content-between align-items-center flex-wrap">
+              <div>
+                <a href="#"><span>{{note.user.username}}</span></a>
+              </div>
+              <div class="meta">
+                {{note.created|date:"j M"}}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endblock  %}
+    <!-- end blog Area -->
+
+    <!-- start footer Area -->
